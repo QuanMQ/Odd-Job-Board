@@ -1,4 +1,5 @@
 const { DataTypes } = require("sequelize");
+const User = require("./User");
 const db = require("../config/database");
 
 const Job = db.define("job", {
@@ -6,11 +7,15 @@ const Job = db.define("job", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  reward: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   description: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  reward: {
+  location: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -23,5 +28,8 @@ const Job = db.define("job", {
     allowNull: false,
   },
 });
+
+User.hasMany(Job, { foreignKey: { allowNull: false } });
+Job.belongsTo(User);
 
 module.exports = Job;
