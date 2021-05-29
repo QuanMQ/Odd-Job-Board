@@ -1,0 +1,56 @@
+<h3>Post Your Job</h3>
+<div class="row">
+  {{#each errors}}
+    <div class="error">
+      <p>{{text}}</p>
+    </div>
+  {{/each}}
+  <form action="/jobs" method="POST" class="col s12">
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="title" name="title" value="{{title}}">
+        <label for="title">Title</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="reward" name="reward" value="{{reward}}">
+        <label for="reward">Reward</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <h5>Describe Your Job:</h5>
+        <textarea id="body" name="description">{{description}}</textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="location" name="location" value="{{location}}">
+        <label for="location">Job's Location</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="email" name="contact_email" value="{{contact_email}}">
+        <label for="email">Contact Email</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="phone" name="contact_phone" value="{{contact_phone}}">
+        <label for="phone">Contact Phone</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <input type="submit" value="Save" class="btn">
+      <a href="/dashboard" class="btn orange">Cancel</a>
+    </div>
+  </form>
+</div>

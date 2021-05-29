@@ -13,7 +13,8 @@ dotenv.config({ path: "./config/config.env" });
 
 // *Test DB
 const connectDB = require("./config/database");
-connectDB.authenticate()
+connectDB
+  .authenticate()
   .then(() => console.log("Database connected..."))
   .catch((err) => console.log("Error: " + err));
 
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // *Method override
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 
 // *Logging
 if (process.env.NODE_ENV === "development") {
@@ -87,9 +88,9 @@ app.use(function (req, res, next) {
 app.use(express.static(path.join(__dirname, "public")));
 
 // *Routes
-app.get("/", (req, res) => {
-  res.send("<h1>Hello</h1>");
-});
+app.use("/", require("./routes/index"));
+app.use("/auth", require("./routes/auth"));
+app.use("/jobs", require("./routes/jobs"));
 
 const PORT = process.env.PORT || 3000;
 

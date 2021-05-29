@@ -27,6 +27,11 @@ const Job = db.define("job", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  status: {
+    type: DataTypes.ENUM,
+    defaultValue: "pending",
+    values: ["pending", "published", "denied"],
+  },
 });
 
 User.hasMany(Job, { foreignKey: { allowNull: false } });

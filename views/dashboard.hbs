@@ -1,0 +1,37 @@
+<h6>Dashboard</h6>
+<h3>Welcome {{name}}</h3>
+<p>Here are the jobs you posted</p>
+{{#if jobs}}
+<table class="striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each jobs}}
+    <tr>
+      <td><a href="/jobs/{{id}}">{{title}}</a></td>
+      <td>{{formatDate createdAt "Do MMMM YYYY, hh:mm:ss a"}}</td>
+      <td><span class="dash-status">{{status}}</span></td>
+      <td>
+        <a href="/jobs/edit/{{id}}" class="btn btn-float">
+          <i class="fas fa-edit"></i>
+        </a>
+
+        <form action="/jobs/{{id}}?_method=DELETE" method="POST" id="delete-form">
+          <button type="submit" class="btn red">
+            <i class="fas fa-trash"></i>
+          </button>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+<p>You have not posted any jobs</p>
+{{/if}}
