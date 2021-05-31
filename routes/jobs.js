@@ -3,6 +3,7 @@ const router = express.Router();
 const { ensureAuth } = require("../middleware/auth");
 
 const Job = require("../models/Job");
+const User = require("../models/User");
 
 // *@desc Show add page
 // *@route GET /jobs/add
@@ -58,6 +59,43 @@ router.post("/", ensureAuth, async (req, res) => {
       res.render("error/500");
     }
   }
+});
+
+// *@desc Show single job
+// *@route GET /jobs/:id
+router.get("/:id", ensureAuth, async (req, res) => {
+  try {
+    const job = (await Job.findByPk(req.params.id, { include: User }))
+      .dataValues;
+
+    if (!job) {
+      return res.render("error/404");
+    }
+    res.render("jobs/show", { job });
+  } catch (err) {
+    console.error(err);
+    res.render("error/404");
+  }
+});
+
+// *@desc User job
+// *@route GET /jobs/user/:userId
+router.get("/user/:userId", ensureAuth, async (req, res) => {
+  Job.findAll({
+    where: {
+      userId: req.params.userId,
+      status: "pending", // TODO Change to "published"
+    },
+    include: User,
+  })
+    .then((jobsArr) => {
+      const jobs = jobsArr.map((job) => job.dataValues);
+      res.render("jobs/index", { jobs });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.render("error/500");
+    });
 });
 
 module.exports = router;

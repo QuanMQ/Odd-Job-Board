@@ -9,7 +9,7 @@ const User = require("../models/User");
 // *@route GET /
 router.get("/", (req, res) => {
   Job.findAll({
-    where: { status: "pending" },
+    where: { status: "pending" }, // TODO Change to "published"
     order: [["createdAt", "DESC"]],
     include: User,
   })

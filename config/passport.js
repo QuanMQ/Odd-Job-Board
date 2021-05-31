@@ -39,8 +39,9 @@ module.exports = function (passport) {
     done(null, user.id);
   });
 
-  passport.deserializeUser(async (id, done) => {
-    const user = await User.findByPk(id);
-    done(null, user);
+  passport.deserializeUser((id, done) => {
+    User.findByPk(id)
+      .then((user) => done(null, user))
+      .catch((err) => done(err));
   });
 };
