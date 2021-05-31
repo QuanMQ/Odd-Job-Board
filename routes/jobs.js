@@ -98,4 +98,69 @@ router.get("/user/:userId", ensureAuth, async (req, res) => {
     });
 });
 
+// *@desc Show edit page
+// *@route GET /jobs/edit/:id
+router.get("/edit/:id", ensureAuth, async (req, res) => {
+  try {
+    const job = (await Job.findByPk(req.params.id)).dataValues;
+
+    if (!job) {
+      return res.render("error/404");
+    }
+
+    if (job.userId != req.user.id) {
+      res.redirect("/");
+    } else {
+      res.render("jobs/edit", { job });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.render("error/500");
+  }
+});
+
+// *@desc Update job
+// *@route PUT /jobs/:id
+router.put("/:id", ensureAuth, async (req, res) => {
+  try {
+    let job = (await Job.findByPk(req.params.id)).dataValues;
+
+    if (!job) {
+      return res.render("error/404");
+    }
+
+    if (job.userId != req.user.id) {
+      res.redirect("/");
+    } else {
+      job = await Job.update(req.body, { where: { id: req.params.id } });
+      res.redirect("/dashboard");
+    }
+  } catch (err) {
+    console.error(err);
+    return res.render("error/500");
+  }
+});
+
+// *@desc Delete story
+// *@route DELETE /jobs/:id
+router.delete("/:id", ensureAuth, async (req, res) => {
+  try {
+    let job = (await Job.findByPk(req.params.id)).dataValues;
+
+    if (!job) {
+      return res.render("error/404");
+    }
+
+    if (job.userId != req.user.id) {
+      res.redirect("/");
+    } else {
+      await Job.destroy({ where: { id: req.params.id } });
+      res.redirect("/dashboard");
+    }
+  } catch (err) {
+    console.error(err);
+    return res.render("error/500");
+  }
+});
+
 module.exports = router;

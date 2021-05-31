@@ -17,9 +17,9 @@ module.exports = {
   editIcon: function (jobUser, loggedUser, jobId, floating = true) {
     if (jobUser.id == loggedUser.id) {
       if (floating) {
-        return `<a href="/stories/edit/${jobId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`;
+        return `<a href="/jobs/edit/${jobId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`;
       } else {
-        return `<a href="/stories/edit/${jobId}"><i class="fas fa-edit"></i></a>`;
+        return `<a href="/jobs/edit/${jobId}"><i class="fas fa-edit"></i></a>`;
       }
     } else {
       return "";

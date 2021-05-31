@@ -1,0 +1,51 @@
+<h3>Edit Job</h3>
+<div class="row">
+  <form action="/jobs/{{job.id}}?_method=PUT" method="POST" class="col s12">
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="title" name="title" value="{{job.title}}">
+        <label for="title">Title</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="reward" name="reward" value="{{job.reward}}">
+        <label for="reward">Reward</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <h5>Describe Your Job:</h5>
+        <textarea id="body" name="description">{{{job.description}}}</textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="location" name="location" value="{{job.location}}">
+        <label for="location">Job's Location</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="email" name="contact_email" value="{{job.contact_email}}">
+        <label for="email">Contact Email</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field">
+        <input type="text" id="phone" name="contact_phone" value="{{job.contact_phone}}">
+        <label for="phone">Contact Phone</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <input type="submit" value="Save" class="btn">
+      <a href="/dashboard" class="btn orange">Cancel</a>
+    </div>
+  </form>
+</div>
