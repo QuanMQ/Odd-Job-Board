@@ -1,16 +1,16 @@
-<h6>Admin's Dashboard</h6>
-<h3>Welcome {{name}}</h3>
-<p>Here are the pending jobs</p>
+<h6>Administrator's Dashboard</h6>
+<h3>Welcome Admin {{name}}</h3>
+<p>Here are all pending jobs</p>
 {{#if jobs}}
 <table class="striped">
   <thead>
     <tr>
       <th>Title</th>
-      <th>Date</th>
+      <th>Created At</th>
       <th>Status</th>
-      <th>User's Name</th>
-      <th class="center-align">Publish/Deny</th>
-      <th class="center-align">Edit/Delete</th>
+      <th>Posted By</th>
+      <th class="center-align">Publish / Deny</th>
+      <th class="center-align">Edit / Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -21,13 +21,13 @@
       <td><span class="dash-status">{{status}}</span></td>
       <td>{{user.dataValues.displayName}}</td>
       <td class="center-align">
-        <form action="/access/granted/{{id}}?_method=PUT" method="POST">
-          <button type="submit" class="btn teal">
+        <form action="/access/granted/{{id}}?_method=PUT" method="POST" id="access-form">
+          <button type="submit" class="btn green">
             <i class="far fa-check-circle"></i>
           </button>
         </form>
 
-        <form action="/access/denied/{{id}}?_method=PUT" method="POST">
+        <form action="/access/denied/{{id}}?_method=PUT" method="POST" id="access-form">
           <button type="submit" class="btn orange">
             <i class="far fa-times-circle"></i>
           </button>
@@ -38,7 +38,7 @@
           <i class="fas fa-pen-square"></i>
         </a>
 
-        <form action="/jobs/{{id}}?_method=DELETE" method="POST" id="delete-form">
+        <form action="/jobs/{{id}}?_method=DELETE" method="POST" id="access-form">
           <button type="submit" class="btn red">
             <i class="fas fa-trash"></i>
           </button>
@@ -50,4 +50,42 @@
 </table>
 {{else}}
 <p>There are no pending jobs</p>
+{{/if}}
+<br>
+<hr>
+<p>Here are all users</p>
+{{#if users}}
+<table class="striped">
+  <thead>
+    <tr>
+      <th>User's Name</th>
+      <th>Joined On</th>
+      <th class="center-align">Current Role</th>
+      <th class="center-align">Assign New Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <td>{{displayName}}</td>
+      <td>{{formatDate createdAt "Do MMMM YYYY"}}</td>
+      <td class="center-align"><span class="dash-status">{{role}}</span></td>
+      <td class="center-align">
+        <form action="/access/role/{{id}}?_method=PUT" method="POST">
+          <select class="browser-default" id="role" name="role">
+            {{#select role}}
+            <option value="User">User</option>
+            <option value="Moderator">Moderator</option>
+            {{/select}}
+          </select>
+          <button type="submit" class="btn cyan">
+            <i class="fas fa-save"></i>
+          </button>
+        </form>
+      </td>
+    {{/each}}
+  </tbody>
+</table>
+{{else}}
+<p>There are no users</p>
 {{/if}}

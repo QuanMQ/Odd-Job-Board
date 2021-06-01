@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
   })
     .then((jobsArr) => {
       const jobs = jobsArr.map((job) => job.dataValues);
-      res.render("jobs/index", { jobs });
+      res.render("jobs/index", { jobs, req });
     })
     .catch((err) => {
       console.error(err);

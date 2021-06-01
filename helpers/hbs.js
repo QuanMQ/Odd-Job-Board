@@ -14,8 +14,11 @@ module.exports = {
   stripTags: function (input) {
     return input.replace(/<(?:.|\n)*?>/gm, "");
   },
-  editIcon: function (jobUser, loggedUser, jobId, floating = true) {
-    if (jobUser.id == loggedUser.id) {
+  editIcon: function (req, jobUser, loggedUser, jobId, floating = true) {
+    if (
+      req.isAuthenticated() &&
+      (jobUser.id == loggedUser.id || req.user.role == "Admin")
+    ) {
       if (floating) {
         return `<a href="/jobs/edit/${jobId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`;
       } else {

@@ -1,34 +1,85 @@
 const express = require("express");
-const passport = require("passport");
 const router = express.Router();
 const Job = require("../models/Job");
 const User = require("../models/User");
-const { ensureAdminMod, ensureAdmin } = require("../middleware/access");
+const {
+  ensureAdminMod,
+  ensureAdmin,
+  ensureMod,
+} = require("../middleware/access");
 const { ensureAuth } = require("../middleware/auth");
+const { Op } = require("sequelize");
+
+// *@desc Administration routing
+// *@route GET /access
+router.get("/", ensureAuth, (req, res) => {
+  const userRole = req.user.role;
+  if (userRole == "Admin") {
+    res.redirect("/access/ad");
+  } else if (userRole == "Moderator") {
+    res.redirect("/access/mod");
+  } else {
+    res.redirect("/access/denied");
+  }
+});
 
 // *@desc Admin page
 // *@route GET /access/ad
-router.get("/ad", ensureAuth, ensureAdminMod, ensureAdmin, (req, res) => {
-  Job.findAll({
-    where: { status: "pending" },
-    include: User,
-  })
-    .then((jobsArr) => {
-      const jobs = jobsArr.map((job) => job.dataValues);
-      res.render("access/ad-dashboard", {
-        name: req.user.firstName,
-        jobs,
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.render("error/500");
+router.get("/ad", ensureAuth, ensureAdmin, async (req, res) => {
+  try {
+    // *Get all pending jobs
+    const jobs = (
+      await Job.findAll({
+        where: { status: "pending" },
+        include: User,
+      })
+    ).map((job) => job.dataValues);
+
+    // *Get all users
+    const users = (
+      await User.findAll({
+        where: {
+          role: {
+            [Op.or]: ["User", "Moderator"],
+          },
+        },
+      })
+    ).map((user) => user.dataValues);
+
+    res.render("access/ad-dashboard", {
+      name: req.user.firstName,
+      jobs,
+      users,
     });
+  } catch (err) {
+    console.error(err);
+    return res.render("error/500");
+  }
+});
+
+// *@desc Edit role
+// *@route PUT /access/role/:userId
+router.put("/role/:userId", ensureAuth, ensureAdmin, async (req, res) => {
+  try {
+    let user = (await User.findByPk(req.params.userId)).dataValues;
+    if (!user) {
+      return res.render("error/404");
+    }
+    user = await User.update(
+      { role: req.body.role },
+      { where: { id: req.params.userId } }
+    );
+
+    res.redirect("/access/ad");
+  } catch (err) {
+    console.error(err);
+    return res.render("error/500");
+  }
 });
 
 // *@desc Moderator page
 // *@route GET /access/mod
-router.get("/mod", ensureAuth, ensureAdminMod, (req, res) => {
+router.get("/mod", ensureAuth, ensureMod, (req, res) => {
   Job.findAll({
     where: { status: "pending" },
     include: User,
@@ -59,7 +110,7 @@ router.put("/granted/:id", ensureAuth, ensureAdminMod, async (req, res) => {
       { where: { id: req.params.id } }
     );
 
-    if (req.user.role == "admin") {
+    if (req.user.role == "Admin") {
       res.redirect("/access/ad");
     } else {
       res.redirect("/access/mod");
@@ -83,7 +134,7 @@ router.put("denied/:id", ensureAuth, ensureAdminMod, async (req, res) => {
       { where: { id: req.params.id } }
     );
 
-    if (req.user.role == "admin") {
+    if (req.user.role == "Admin") {
       res.redirect("/access/ad");
     } else {
       res.redirect("/access/mod");

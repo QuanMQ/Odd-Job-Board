@@ -1,15 +1,15 @@
 <h6>Moderator's Dashboard</h6>
-<h3>Welcome {{name}}</h3>
+<h3>Welcome Moderator {{name}}</h3>
 <p>Here are the pending jobs</p>
 {{#if jobs}}
 <table class="striped">
   <thead>
     <tr>
       <th>Title</th>
-      <th>Date</th>
+      <th>Created At</th>
       <th>Status</th>
-      <th>User's Name</th>
-      <th class="center-align">Publish/Deny</th>
+      <th>Posted By</th>
+      <th class="center-align">Publish / Deny</th>
     </tr>
   </thead>
   <tbody>
@@ -20,13 +20,13 @@
       <td><span class="dash-status">{{status}}</span></td>
       <td>{{user.dataValues.displayName}}</td>
       <td class="center-align">
-        <form action="/access/granted/{{id}}?_method=PUT" method="POST">
-          <button type="submit" class="btn teal">
+        <form action="/access/granted/{{id}}?_method=PUT" method="POST" id="access-form">
+          <button type="submit" class="btn green">
             <i class="far fa-check-circle"></i>
           </button>
         </form>
 
-        <form action="/access/denied/{{id}}?_method=PUT" method="POST">
+        <form action="/access/denied/{{id}}?_method=PUT" method="POST" id="access-form">
           <button type="submit" class="btn red">
             <i class="far fa-times-circle"></i>
           </button>

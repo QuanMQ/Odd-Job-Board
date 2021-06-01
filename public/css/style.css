@@ -26,3 +26,21 @@ p {
   border: #777 dotted 1px;
   margin-bottom: 15px;
 }
+
+#role {
+  display: inline-block;
+  width: 50%;
+  margin-right: 10px;
+}
+
+#access-form {
+  display: inline-block;
+}
+
+.btn.cyan {
+  margin-bottom: 5px;
+}
+
+.card.job p {
+  font-size: 20px;
+}

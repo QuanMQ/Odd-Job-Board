@@ -29,8 +29,8 @@ const Job = db.define("job", {
   },
   status: {
     type: DataTypes.ENUM,
-    defaultValue: "pending",
-    values: ["pending", "published", "denied"],
+    defaultValue: "Pending",
+    values: ["Pending", "Published", "Denied"],
   },
 });
 

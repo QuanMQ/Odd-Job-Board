@@ -1,12 +1,12 @@
-<h6>Dashboard</h6>
-<h3>Welcome {{name}}</h3>
+<h6>User's Dashboard</h6>
+<h3>Welcome User {{name}}</h3>
 <p>Here are the jobs you posted</p>
 {{#if jobs}}
 <table class="striped">
   <thead>
     <tr>
       <th>Title</th>
-      <th>Date</th>
+      <th>Created At</th>
       <th>Status</th>
       <th></th>
     </tr>
@@ -19,7 +19,7 @@
       <td><span class="dash-status">{{status}}</span></td>
       <td>
         <a href="/jobs/edit/{{id}}" class="btn btn-float">
-          <i class="fas fa-edit"></i>
+          <i class="fas fa-pen-square"></i>
         </a>
 
         <form action="/jobs/{{id}}?_method=DELETE" method="POST" id="delete-form">

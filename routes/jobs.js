@@ -71,7 +71,7 @@ router.get("/:id", ensureAuth, async (req, res) => {
     if (!job) {
       return res.render("error/404");
     }
-    res.render("jobs/show", { job });
+    res.render("jobs/show", { job, req });
   } catch (err) {
     console.error(err);
     res.render("error/404");
@@ -90,7 +90,7 @@ router.get("/user/:userId", ensureAuth, async (req, res) => {
   })
     .then((jobsArr) => {
       const jobs = jobsArr.map((job) => job.dataValues);
-      res.render("jobs/index", { jobs });
+      res.render("jobs/index", { jobs, req });
     })
     .catch((err) => {
       console.error(err);
@@ -108,7 +108,7 @@ router.get("/edit/:id", ensureAuth, async (req, res) => {
       return res.render("error/404");
     }
 
-    if (job.userId != req.user.id && req.user.role != "admin") {
+    if (job.userId != req.user.id && req.user.role != "Admin") {
       res.redirect("/");
     } else {
       res.render("jobs/edit", { job });
@@ -129,7 +129,7 @@ router.put("/:id", ensureAuth, async (req, res) => {
       return res.render("error/404");
     }
 
-    if (job.userId != req.user.id && req.user.role != "admin") {
+    if (job.userId != req.user.id && req.user.role != "Admin") {
       res.redirect("/");
     } else {
       job = await Job.update(req.body, { where: { id: req.params.id } });
