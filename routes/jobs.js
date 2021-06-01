@@ -84,7 +84,7 @@ router.get("/user/:userId", ensureAuth, async (req, res) => {
   Job.findAll({
     where: {
       userId: req.params.userId,
-      status: "pending", // TODO Change to "published"
+      status: "published",
     },
     include: User,
   })
@@ -108,7 +108,7 @@ router.get("/edit/:id", ensureAuth, async (req, res) => {
       return res.render("error/404");
     }
 
-    if (job.userId != req.user.id) {
+    if (job.userId != req.user.id && req.user.role != "admin") {
       res.redirect("/");
     } else {
       res.render("jobs/edit", { job });
@@ -129,7 +129,7 @@ router.put("/:id", ensureAuth, async (req, res) => {
       return res.render("error/404");
     }
 
-    if (job.userId != req.user.id) {
+    if (job.userId != req.user.id && req.user.role != "admin") {
       res.redirect("/");
     } else {
       job = await Job.update(req.body, { where: { id: req.params.id } });

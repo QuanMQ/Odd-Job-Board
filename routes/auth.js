@@ -1,10 +1,11 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
+const { ensureGuest } = require("../middleware/auth");
 
 // *@desc Login page
 // *@route GET /auth/login
-router.get("/login", (req, res) => {
+router.get("/login", ensureGuest, (req, res) => {
   res.render("login", {
     layout: "login",
   });
