@@ -2,7 +2,7 @@
 <h3>Welcome Admin {{name}}</h3>
 <p>Here are all pending jobs</p>
 {{#if jobs}}
-<table class="striped">
+<table class="striped responsive-table">
   <thead>
     <tr>
       <th>Title</th>
@@ -22,24 +22,24 @@
       <td>{{user.dataValues.displayName}}</td>
       <td class="center-align">
         <form action="/access/granted/{{id}}?_method=PUT" method="POST" id="access-form">
-          <button type="submit" class="btn green">
+          <button type="submit" class="btn green tooltipped" data-position="top" data-tooltip="Publish this job">
             <i class="far fa-check-circle"></i>
           </button>
         </form>
 
         <form action="/access/denied/{{id}}?_method=PUT" method="POST" id="access-form">
-          <button type="submit" class="btn orange">
+          <button type="submit" class="btn orange tooltipped" data-position="top" data-tooltip="Deny this job">
             <i class="far fa-times-circle"></i>
           </button>
         </form>
       </td>
       <td class="center-align">
-        <a href="/jobs/edit/{{id}}" class="btn blue">
+        <a href="/jobs/edit/{{id}}" class="btn blue tooltipped" data-position="top" data-tooltip="Edit this job">
           <i class="fas fa-pen-square"></i>
         </a>
 
         <form action="/jobs/{{id}}?_method=DELETE" method="POST" id="access-form">
-          <button type="submit" class="btn red">
+          <button type="submit" class="btn red tooltipped" data-position="top" data-tooltip="Delete this job">
             <i class="fas fa-trash"></i>
           </button>
         </form>
@@ -55,7 +55,7 @@
 <hr>
 <p>Here are all users</p>
 {{#if users}}
-<table class="striped">
+<table class="striped responsive-table">
   <thead>
     <tr>
       <th>User's Name</th>
@@ -78,7 +78,7 @@
             <option value="Moderator">Moderator</option>
             {{/select}}
           </select>
-          <button type="submit" class="btn cyan">
+          <button type="submit" class="btn cyan tooltipped" data-position="right" data-tooltip="Save role">
             <i class="fas fa-save"></i>
           </button>
         </form>

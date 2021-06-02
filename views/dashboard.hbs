@@ -2,7 +2,7 @@
 <h3>Welcome User {{name}}</h3>
 <p>Here are the jobs you posted</p>
 {{#if jobs}}
-<table class="striped">
+<table class="striped responsive-table">
   <thead>
     <tr>
       <th>Title</th>
@@ -18,12 +18,12 @@
       <td>{{formatDate createdAt "Do MMMM YYYY, hh:mm:ss a"}}</td>
       <td><span class="dash-status">{{status}}</span></td>
       <td>
-        <a href="/jobs/edit/{{id}}" class="btn btn-float">
+        <a href="/jobs/edit/{{id}}" class="btn btn-float tooltipped" data-position="top" data-tooltip="Edit this job">
           <i class="fas fa-pen-square"></i>
         </a>
 
         <form action="/jobs/{{id}}?_method=DELETE" method="POST" id="delete-form">
-          <button type="submit" class="btn red">
+          <button type="submit" class="btn red tooltipped" data-position="top" data-tooltip="Delete this job">
             <i class="fas fa-trash"></i>
           </button>
         </form>

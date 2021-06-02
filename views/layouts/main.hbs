@@ -20,6 +20,10 @@
     {{{body}}}
   </div>
 
+  <footer>
+    <p>Copyright &copy; <span id="date"></span> by QuanMQ</p>
+  </footer>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.16.0/ckeditor.js"
     integrity="sha512-7My1gsUz5JUQgT8+P0sHKaPel/77X3zjGZsXbTS8Y7MhDEJ+f9xg9H+pPzONFL5djye0zWLlxFLApGsWQ1gdfA=="
@@ -27,10 +31,12 @@
 
   <script>
     M.Sidenav.init(document.querySelector(".sidenav"));
+    M.Tooltip.init(document.querySelectorAll(".tooltipped"));
     M.FormSelect.init(document.querySelector("#role"));
     CKEDITOR.replace("body", {
       plugins: "wysiwygarea, toolbar, basicstyles, link",
     });
+    document.getElementById("date").innerText = new Date().getFullYear();
   </script>
 </body>
 
