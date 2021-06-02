@@ -8,6 +8,7 @@ const User = require("../models/User");
 // *@desc Landing page
 // *@route GET /
 router.get("/", (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   Job.findAll({
     where: { status: "published" },
     order: [["createdAt", "DESC"]],
@@ -15,17 +16,18 @@ router.get("/", (req, res) => {
   })
     .then((jobsArr) => {
       const jobs = jobsArr.map((job) => job.dataValues);
-      res.render("jobs/index", { jobs, req });
+      res.render("jobs/index", { jobs, req, isAuthenticated });
     })
     .catch((err) => {
       console.error(err);
-      res.render("error/500");
+      res.render("error/500", { isAuthenticated });
     });
 });
 
 // *@desc Dashboard
 // *@route GET /dashboard
 router.get("/dashboard", ensureAuth, (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   Job.findAll({
     where: { userId: req.user.id },
     include: User,
@@ -35,11 +37,12 @@ router.get("/dashboard", ensureAuth, (req, res) => {
       res.render("dashboard", {
         name: req.user.firstName,
         jobs,
+        isAuthenticated,
       });
     })
     .catch((err) => {
       console.error(err);
-      res.render("error/500");
+      res.render("error/500", { isAuthenticated });
     });
 });
 

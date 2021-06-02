@@ -8,12 +8,14 @@ const User = require("../models/User");
 // *@desc Show add page
 // *@route GET /jobs/add
 router.get("/add", ensureAuth, (req, res) => {
-  res.render("jobs/add");
+  const isAuthenticated = req.isAuthenticated();
+  res.render("jobs/add", { isAuthenticated });
 });
 
 // *@desc Process add form
 // *@route POST /jobs
 router.post("/", ensureAuth, async (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   let { title, reward, location, description, contact_email, contact_phone } =
     req.body;
   let errors = [];
@@ -48,6 +50,7 @@ router.post("/", ensureAuth, async (req, res) => {
       description,
       contact_email,
       contact_phone,
+      isAuthenticated,
     });
   } else {
     try {
@@ -56,7 +59,7 @@ router.post("/", ensureAuth, async (req, res) => {
       res.redirect("/dashboard");
     } catch (err) {
       console.error(err);
-      res.render("error/500");
+      res.render("error/500", { isAuthenticated });
     }
   }
 });
@@ -64,23 +67,25 @@ router.post("/", ensureAuth, async (req, res) => {
 // *@desc Show single job
 // *@route GET /jobs/:id
 router.get("/:id", ensureAuth, async (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   try {
     const job = (await Job.findByPk(req.params.id, { include: User }))
       .dataValues;
 
     if (!job) {
-      return res.render("error/404");
+      return res.render("error/404", { isAuthenticated });
     }
-    res.render("jobs/show", { job, req });
+    res.render("jobs/show", { job, req, isAuthenticated });
   } catch (err) {
     console.error(err);
-    res.render("error/404");
+    res.render("error/404", { isAuthenticated });
   }
 });
 
 // *@desc User job
 // *@route GET /jobs/user/:userId
 router.get("/user/:userId", ensureAuth, async (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   Job.findAll({
     where: {
       userId: req.params.userId,
@@ -90,43 +95,45 @@ router.get("/user/:userId", ensureAuth, async (req, res) => {
   })
     .then((jobsArr) => {
       const jobs = jobsArr.map((job) => job.dataValues);
-      res.render("jobs/index", { jobs, req });
+      res.render("jobs/index", { jobs, req, isAuthenticated });
     })
     .catch((err) => {
       console.error(err);
-      res.render("error/500");
+      res.render("error/500", { isAuthenticated });
     });
 });
 
 // *@desc Show edit page
 // *@route GET /jobs/edit/:id
 router.get("/edit/:id", ensureAuth, async (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   try {
     const job = (await Job.findByPk(req.params.id)).dataValues;
 
     if (!job) {
-      return res.render("error/404");
+      return res.render("error/404", { isAuthenticated });
     }
 
     if (job.userId != req.user.id && req.user.role != "Admin") {
       res.redirect("/");
     } else {
-      res.render("jobs/edit", { job });
+      res.render("jobs/edit", { job, isAuthenticated });
     }
   } catch (err) {
     console.error(err);
-    return res.render("error/500");
+    return res.render("error/500", { isAuthenticated });
   }
 });
 
 // *@desc Update job
 // *@route PUT /jobs/:id
 router.put("/:id", ensureAuth, async (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   try {
     let job = (await Job.findByPk(req.params.id)).dataValues;
 
     if (!job) {
-      return res.render("error/404");
+      return res.render("error/404", { isAuthenticated });
     }
 
     if (job.userId != req.user.id && req.user.role != "Admin") {
@@ -137,18 +144,19 @@ router.put("/:id", ensureAuth, async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    return res.render("error/500");
+    return res.render("error/500", { isAuthenticated });
   }
 });
 
 // *@desc Delete story
 // *@route DELETE /jobs/:id
 router.delete("/:id", ensureAuth, async (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
   try {
     let job = (await Job.findByPk(req.params.id)).dataValues;
 
     if (!job) {
-      return res.render("error/404");
+      return res.render("error/404", { isAuthenticated });
     }
 
     if (job.userId != req.user.id) {
@@ -159,7 +167,7 @@ router.delete("/:id", ensureAuth, async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    return res.render("error/500");
+    return res.render("error/500", { isAuthenticated });
   }
 });
 

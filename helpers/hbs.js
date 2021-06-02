@@ -20,9 +20,9 @@ module.exports = {
       (jobUser.id == loggedUser.id || req.user.role == "Admin")
     ) {
       if (floating) {
-        return `<a href="/jobs/edit/${jobId}" class="btn-floating halfway-fab blue"><i class="fas fa-edit fa-small"></i></a>`;
+        return `<a href="/jobs/edit/${jobId}" class="btn-floating halfway-fab blue tooltipped" data-position="left" data-tooltip="Edit this job"><i class="fas fa-edit fa-small"></i></a>`;
       } else {
-        return `<a href="/jobs/edit/${jobId}"><i class="fas fa-edit"></i></a>`;
+        return `<a href="/jobs/edit/${jobId}" class="tooltipped" data-position="right" data-tooltip="Edit this job"><i class="fas fa-edit"></i></a>`;
       }
     } else {
       return "";
