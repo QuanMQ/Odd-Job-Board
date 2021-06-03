@@ -1,9 +1,45 @@
 const express = require("express");
 const router = express.Router();
 const { ensureAuth } = require("../middleware/auth");
+const { Op } = require("sequelize");
 
 const Job = require("../models/Job");
 const User = require("../models/User");
+
+// *@desc Process search form
+// *@route GET /jobs/search
+router.get("/search", ensureAuth, (req, res) => {
+  const isAuthenticated = req.isAuthenticated();
+
+  // *Extract values from non-empty input fields
+  const searchTerms = [];
+  Object.entries(req.query)
+    .filter((term) => term[1] != "")
+    .forEach((term) => {
+      const terms = term[1].match(/\w+/g);
+      terms.forEach((word) => {
+        const termObj = {};
+        termObj[term[0]] = { [Op.like]: "%" + word + "%" };
+        searchTerms.push(termObj);
+      });
+    });
+
+  Job.findAll({
+    where: {
+      [Op.or]: searchTerms,
+      status: "Published",
+    },
+    include: User,
+  })
+    .then((jobsArr) => {
+      const jobs = jobsArr.map((job) => job.dataValues);
+      res.render("jobs/index", { jobs, req, isAuthenticated });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.render("error/500", { isAuthenticated });
+    });
+});
 
 // *@desc Show add page
 // *@route GET /jobs/add
@@ -95,7 +131,7 @@ router.get("/user/:userId", ensureAuth, async (req, res) => {
   Job.findAll({
     where: {
       userId: req.params.userId,
-      status: "published",
+      status: "Published",
     },
     include: User,
   })

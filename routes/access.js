@@ -31,7 +31,7 @@ router.get("/ad", ensureAuth, ensureAdmin, async (req, res) => {
     // *Get all pending jobs
     const jobs = (
       await Job.findAll({
-        where: { status: "pending" },
+        where: { status: "Pending" },
         include: User,
       })
     ).map((job) => job.dataValues);
@@ -85,7 +85,7 @@ router.put("/role/:userId", ensureAuth, ensureAdmin, async (req, res) => {
 router.get("/mod", ensureAuth, ensureMod, (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   Job.findAll({
-    where: { status: "pending" },
+    where: { status: "Pending" },
     include: User,
   })
     .then((jobsArr) => {
@@ -112,7 +112,7 @@ router.put("/granted/:id", ensureAuth, ensureAdminMod, async (req, res) => {
       return res.render("error/404", { isAuthenticated });
     }
     job = await Job.update(
-      { status: "published" },
+      { status: "Published" },
       { where: { id: req.params.id } }
     );
 
@@ -137,7 +137,7 @@ router.put("/denied/:id", ensureAuth, ensureAdminMod, async (req, res) => {
       return res.render("error/404", { isAuthenticated });
     }
     job = await Job.update(
-      { status: "denied" },
+      { status: "Denied" },
       { where: { id: req.params.id } }
     );
 

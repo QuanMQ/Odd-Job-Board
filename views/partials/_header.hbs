@@ -6,6 +6,7 @@
       <ul class="right hide-on-med-and-down">
         <li><a href="/">Available Jobs</a></li>
         <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="#modal1" class="modal-trigger">Search</a></li>
         <li><a href="/access">Administration</a></li>
         {{#if isAuthenticated}}
         <li><a href="/auth/logout">Logout</a></li>
@@ -17,13 +18,58 @@
   </nav>
 </div>
 
-  <ul class="sidenav" id="mobile-demo">
-    <li><a href="/">Posted Jobs</a></li>
-    <li><a href="/dashboard">Dashboard</a></li>
-    <li><a href="/access">Administration</a></li>
-    {{#if isAuthenticated}}
-    <li><a href="/auth/logout">Logout</a></li>
-    {{else}}
-    <li><a href="/auth/login">Login</a></li>
-    {{/if}}
-  </ul>
+<ul class="sidenav" id="mobile-demo">
+  <li><a href="/">Posted Jobs</a></li>
+  <li><a href="/dashboard">Dashboard</a></li>
+  <li><a href="#modal1" class="modal-trigger">Search</a></li>
+  <li><a href="/access">Administration</a></li>
+  {{#if isAuthenticated}}
+  <li><a href="/auth/logout">Logout</a></li>
+  {{else}}
+  <li><a href="/auth/login">Login</a></li>
+  {{/if}}
+</ul>
+
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <div class="container">
+      <h3 class="center-align">Search For Jobs</h3>
+      <div class="row">
+      <form action="/jobs/search" method="GET" class="col s12">
+        <div class="row">
+          <div class="input-field">
+            <input type="text" id="title" name="title" maxlength="20">
+            <label for="title">Title (Max 20 characters)</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="input-field">
+            <input type="text" id="reward" name="reward">
+            <label for="reward">Reward</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="input-field">
+            <input type="text" id="description" name="description">
+            <label for="description">Description</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="input-field">
+            <input type="text" id="location" name="location">
+            <label for="location">Location</label>
+          </div>
+        </div>
+  
+        <div class="row center-align">
+          <input type="submit" value="Search" class="btn">
+          <a href="#!" class="btn amber modal-close">Cancel</a>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>

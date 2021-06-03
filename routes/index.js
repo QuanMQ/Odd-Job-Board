@@ -10,7 +10,7 @@ const User = require("../models/User");
 router.get("/", (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   Job.findAll({
-    where: { status: "published" },
+    where: { status: "Published" },
     order: [["createdAt", "DESC"]],
     include: User,
   })
