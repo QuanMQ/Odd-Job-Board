@@ -129,7 +129,7 @@ router.put("/granted/:id", ensureAuth, ensureAdminMod, async (req, res) => {
 
 // *@desc Deny job
 // *@route PUT /access/denied/:id
-router.put("denied/:id", ensureAuth, ensureAdminMod, async (req, res) => {
+router.put("/denied/:id", ensureAuth, ensureAdminMod, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   try {
     let job = (await Job.findByPk(req.params.id)).dataValues;

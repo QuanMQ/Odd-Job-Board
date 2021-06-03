@@ -56,7 +56,13 @@ router.post("/", ensureAuth, async (req, res) => {
     try {
       req.body.userId = req.user.id;
       await Job.create(req.body);
-      res.redirect("/dashboard");
+      if (req.user.role == "Admin") {
+        res.redirect("/access/ad");
+      } else if (req.user.role == "Moderator") {
+        res.redirect("/access/mod");
+      } else {
+        res.redirect("/dashboard");
+      }
     } catch (err) {
       console.error(err);
       res.render("error/500", { isAuthenticated });
@@ -129,6 +135,7 @@ router.get("/edit/:id", ensureAuth, async (req, res) => {
 // *@route PUT /jobs/:id
 router.put("/:id", ensureAuth, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
+  req.body.status = "Pending";
   try {
     let job = (await Job.findByPk(req.params.id)).dataValues;
 
@@ -140,7 +147,13 @@ router.put("/:id", ensureAuth, async (req, res) => {
       res.redirect("/");
     } else {
       job = await Job.update(req.body, { where: { id: req.params.id } });
-      res.redirect("/dashboard");
+      if (req.user.role == "Admin") {
+        res.redirect("/access/ad");
+      } else if (req.user.role == "Moderator") {
+        res.redirect("/access/mod");
+      } else {
+        res.redirect("/dashboard");
+      }
     }
   } catch (err) {
     console.error(err);

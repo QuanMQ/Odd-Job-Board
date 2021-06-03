@@ -1,8 +1,8 @@
 <h6>Administrator's Dashboard</h6>
-<h3>Welcome Admin {{name}}</h3>
+<h4>Welcome Admin {{name}}</h3>
 <p>Here are all pending jobs</p>
 {{#if jobs}}
-<table class="striped responsive-table">
+<table class="striped responsive-table" id="ad-table-1">
   <thead>
     <tr>
       <th>Title</th>
@@ -55,7 +55,7 @@
 <hr>
 <p>Here are all users</p>
 {{#if users}}
-<table class="striped responsive-table">
+<table class="striped responsive-table" id="ad-table-2">
   <thead>
     <tr>
       <th>User's Name</th>

@@ -8,7 +8,13 @@ module.exports = {
   },
   ensureGuest: function (req, res, next) {
     if (req.isAuthenticated()) {
-      res.redirect("/dashboard");
+      if (req.user.role == "Admin") {
+        res.redirect("/access/ad");
+      } else if (req.user.role == "Moderator") {
+        res.redirect("/access/mod");
+      } else {
+        res.redirect("/dashboard");
+      }
     } else {
       return next();
     }

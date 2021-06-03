@@ -1,14 +1,14 @@
 <h6>User's Dashboard</h6>
-<h3>Welcome User {{name}}</h3>
+<h4>Welcome User {{name}}</h4>
 <p>Here are the jobs you posted</p>
 {{#if jobs}}
-<table class="striped responsive-table">
+<table class="striped responsive-table" id="user-table">
   <thead>
     <tr>
       <th>Title</th>
       <th>Created At</th>
       <th>Status</th>
-      <th></th>
+      <th>Edit / Delete</th>
     </tr>
   </thead>
   <tbody>
