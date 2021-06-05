@@ -1,4 +1,4 @@
-<h2 class="center-align">Post Your One-Time Jobs Here</h2>
+<h2 class="center-align">A Place To Post Your <span class="deep-orange-text text-accent-3">One-Time</span> Jobs</h2>
 <div class="row">
   {{#each jobs}}
   <div class="col s12 m4">
@@ -10,13 +10,13 @@
         <h5>{{title}}</h5>
         <p>{{stripTags (truncate description 150)}}</p>
         <br>
-        <div class="chip">
+        <div class="chip blue-grey darken-2">
           <img src="{{user.dataValues.image}}">
-          <a href="/jobs/user/{{user.dataValues.id}}">{{user.dataValues.displayName}}</a>
+          <a class="lime-text text-accent-3" href="/jobs/user/{{user.dataValues.id}}">{{user.dataValues.displayName}}</a>
         </div>
       </div>
       <div class="card-action center-align">
-        <a href="/jobs/{{id}}" class="btn grey">Read More</a>
+        <a href="/jobs/{{id}}" class="btn pink darken-3">Read More</a>
       </div>
     </div>
   </div>

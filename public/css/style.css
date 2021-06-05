@@ -1,8 +1,22 @@
+html {
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("https://images.pexels.com/photos/316466/pexels-photo-316466.jpeg?cs=srgb&dl=pexels-lumn-316466.jpg&fm=jpg")
+      no-repeat center center / cover;
+}
+
+span.deep-orange-text {
+  white-space: nowrap;
+}
+
 p {
   margin: 10px 0 !important;
 }
 
 .login-container {
+  max-width: 90%;
   width: 400px;
   margin-top: 50px;
   text-align: center;
@@ -25,6 +39,13 @@ p {
   padding: 5px;
   border: #777 dotted 1px;
   margin-bottom: 15px;
+}
+
+span.yellow-text {
+  display: inline-block;
+  line-height: 1;
+  padding: 5px 10px;
+  border-radius: 10px;
 }
 
 #role {
@@ -53,6 +74,16 @@ footer {
 }
 
 @media (max-width: 576px) {
+  html {
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.8)
+      ),
+      url("https://images.pexels.com/photos/3205479/pexels-photo-3205479.jpeg?cs=srgb&dl=pexels-cottonbro-3205479.jpg&fm=jpg")
+        no-repeat center center / cover;
+    background-attachment: fixed;
+  }
+
   a.brand-logo {
     font-size: 1.8rem;
   }
