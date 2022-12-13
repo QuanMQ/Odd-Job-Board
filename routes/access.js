@@ -64,7 +64,7 @@ router.get("/ad", ensureAuth, ensureAdmin, async (req, res) => {
 router.put("/role/:userId", ensureAuth, ensureAdmin, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   try {
-    let user = (await User.findByPk(req.params.userId)).dataValues;
+    let user = await User.findByPk(req.params.userId);
     if (!user) {
       return res.render("error/404", { isAuthenticated });
     }
@@ -107,7 +107,7 @@ router.get("/mod", ensureAuth, ensureMod, (req, res) => {
 router.put("/granted/:id", ensureAuth, ensureAdminMod, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   try {
-    let job = (await Job.findByPk(req.params.id)).dataValues;
+    let job = await Job.findByPk(req.params.id);
     if (!job) {
       return res.render("error/404", { isAuthenticated });
     }
@@ -132,7 +132,7 @@ router.put("/granted/:id", ensureAuth, ensureAdminMod, async (req, res) => {
 router.put("/denied/:id", ensureAuth, ensureAdminMod, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   try {
-    let job = (await Job.findByPk(req.params.id)).dataValues;
+    let job = await Job.findByPk(req.params.id);
     if (!job) {
       return res.render("error/404", { isAuthenticated });
     }

@@ -111,16 +111,15 @@ router.post("/", ensureAuth, async (req, res) => {
 router.get("/:id", ensureAuth, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   try {
-    const job = (await Job.findByPk(req.params.id, { include: User }))
-      .dataValues;
+    const job = await Job.findByPk(req.params.id, { include: User });
 
     if (!job) {
       return res.render("error/404", { isAuthenticated });
     }
-    res.render("jobs/show", { job, req, isAuthenticated });
+    res.render("jobs/show", { job: job.dataValues, req, isAuthenticated });
   } catch (err) {
     console.error(err);
-    res.render("error/404", { isAuthenticated });
+    res.render("error/500", { isAuthenticated });
   }
 });
 
@@ -150,16 +149,16 @@ router.get("/user/:userId", ensureAuth, async (req, res) => {
 router.get("/edit/:id", ensureAuth, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   try {
-    const job = (await Job.findByPk(req.params.id)).dataValues;
+    const job = await Job.findByPk(req.params.id);
 
     if (!job) {
       return res.render("error/404", { isAuthenticated });
     }
 
     if (job.userId != req.user.id && req.user.role != "Admin") {
-      res.redirect("/");
+      res.redirect("/access/denied");
     } else {
-      res.render("jobs/edit", { job, isAuthenticated });
+      res.render("jobs/edit", { job: job.dataValues, isAuthenticated });
     }
   } catch (err) {
     console.error(err);
@@ -173,14 +172,14 @@ router.put("/:id", ensureAuth, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   req.body.status = "Pending";
   try {
-    let job = (await Job.findByPk(req.params.id)).dataValues;
+    let job = await Job.findByPk(req.params.id);
 
     if (!job) {
       return res.render("error/404", { isAuthenticated });
     }
 
     if (job.userId != req.user.id && req.user.role != "Admin") {
-      res.redirect("/");
+      res.redirect("/access/denied");
     } else {
       job = await Job.update(req.body, { where: { id: req.params.id } });
       if (req.user.role == "Admin") {
@@ -202,14 +201,14 @@ router.put("/:id", ensureAuth, async (req, res) => {
 router.delete("/:id", ensureAuth, async (req, res) => {
   const isAuthenticated = req.isAuthenticated();
   try {
-    let job = (await Job.findByPk(req.params.id)).dataValues;
+    let job = await Job.findByPk(req.params.id);
 
     if (!job) {
       return res.render("error/404", { isAuthenticated });
     }
 
-    if (job.userId != req.user.id) {
-      res.redirect("/");
+    if (job.userId != req.user.id && req.user.role != "Admin") {
+      res.redirect("/access/denied");
     } else {
       await Job.destroy({ where: { id: req.params.id } });
       res.redirect("/dashboard");
